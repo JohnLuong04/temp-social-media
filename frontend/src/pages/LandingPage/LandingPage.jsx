@@ -2,6 +2,8 @@ import "./LandingPage.css"
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 
+//Author: John Luong
+
 export default function LandingPage(){
     const navigate = useNavigate();
 

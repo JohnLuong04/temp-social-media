@@ -1,4 +1,4 @@
-package com.social_backend.winter;
+package com.social_backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WinterApplication {
 
 	public static void main(String[] args) {
-		System.out.println("check");
 		SpringApplication.run(WinterApplication.class, args);
 	}
 

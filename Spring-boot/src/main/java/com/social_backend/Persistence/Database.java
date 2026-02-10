@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 
 //Author: Jason Ha
-@Service
 public class Database{
 
     public String Database_Name;
@@ -45,6 +44,8 @@ public class Database{
         try(Connection conn = DriverManager.getConnection(url)) {
             if(conn != null){
                 System.out.println("Database connected");
+            }else{
+                return;
             }
             Statement statement = conn.createStatement();
             // statement.execute("INSERT INTO users(username, password) VALUES ('WINTER', 'test')");
