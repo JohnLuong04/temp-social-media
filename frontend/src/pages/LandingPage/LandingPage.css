@@ -1,0 +1,44 @@
+* {
+    box-sizing: border-box;
+}
+
+main {
+    margin: 0;
+    font-family: Inter, sans-serif;
+    height: 30vh;
+}
+
+.landing-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10rem;
+}
+
+.landing-page-left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.landing-page-right{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+}
+
+.sign-up-link{
+    text-decoration: none;
+    color: blue;
+}
