@@ -8,7 +8,16 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import com.social_backend.Persistence.Userback;
 
+// Author: Jason Ha
+/*
+This UserController manages information from users database.
 
+Things need to be done:
+    Managing User Information
+    - Inserting 
+    - Removing 
+    - Editing 
+*/
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:5173")

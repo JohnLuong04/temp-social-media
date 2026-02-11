@@ -8,6 +8,14 @@ import org.springframework.stereotype.Service;
 
 
 //Author: Jason Ha
+/* 
+The Database class is where we first intialize the database instance, However it might be removed for future uses.
+You only need to create database ONCE!! and is located under resources directory in src.
+To query or insert you have to use connect with JDBC DriveManager to talk to the SQL file and then create Statement instance to insert and ResultSet to read.
+I will leave things I already ran to give you understanding how I connect to database
+
+
+*/
 public class Database{
 
     public String Database_Name;

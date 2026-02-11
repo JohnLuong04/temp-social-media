@@ -2,7 +2,11 @@ import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import "./Signup.css"
 
+
+//Author: Jason Ha 
+
 export default function SignupPage(){
+    const navigate = useNavigate();
 
     const [newUserData, setUserData] = useState({
         username: "",
@@ -39,6 +43,8 @@ export default function SignupPage(){
         console.log(newUserData.username);
         console.log(newUserData.password);
         post_function();
+        navigate("/home")
+
     }
 
     function handleChange(e){
