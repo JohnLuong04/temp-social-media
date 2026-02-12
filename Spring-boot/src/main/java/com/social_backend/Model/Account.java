@@ -1,31 +1,21 @@
 package com.social_backend.Model;
-
-import java.util.Objects;
-import com.social_backend.Model.*;
+import java.time.LocalDate;
 
 public class Account {
-
+    private String username; //Also a Unique ID
+    private String password;
+    private final String dateCreated;
     
-    public static String username; //Also a Unique ID
-    public static String password;
-
-    private com.social_backend.Model.Profile profile;
-    
-    public Account(String get_username, String get_password){
-        username = Objects.requireNonNull(get_username, "Username cannot be null");
-        password = Objects.requireNonNull(get_password, "Password cannot be null");
+    public Account(String username, String password, Profile profile){
+        this.username = username;
+        this.password = password;
+        LocalDate now = LocalDate.now();
+        this.dateCreated = now.toString();
     }
 
-    public String get_username(){
-        return username;
-    }
-
-    public String get_password(){
-        return password;
-    }
-
-    public boolean set_profile(Profile get_profile){
-        return (profile = get_profile) != null;
-    }
-
+    public String getUsername() {return this.username;}
+    public String getPassword() {return this.password;}
+    public String getDateCreated() {return this.dateCreated;}
+    public void setUsername(String username) {this.username = username;}
+    public void setPassword(String password) {this.password = password;}
 }
