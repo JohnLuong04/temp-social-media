@@ -1,27 +1,22 @@
 package com.social_backend.Model;
 
-import java.util.Objects;
-
 public class Profile {
 
-    private Account User;
-    public String nickname;
-    public String description;
+    private String username;
+    private String displayName;
+    private String bio;
+    // figure out how to store profile images
     
-    public Profile(String get_nickname, String get_description){
-        nickname = Objects.requireNonNull(get_nickname, "nickname cannot be null");
-        description = Objects.requireNonNull(get_description, "description cannot be null");
+    public Profile(String username, String displayName, String bio){
+        this.displayName = displayName;
+        this.bio = bio;
+        this.username = username;
     }
 
-    public boolean set_user(Account get_user){
-        return (User = get_user) != null;
-    }
-
-    public String get_nickname(){
-        return nickname;
-    }
-
-    public String get_description(){
-        return description;
-    }
+    public String getUsername() {return this.username;}
+    public String getDisplayName() {return displayName;}
+    public String getBio() {return this.bio;}
+    public void setUsername(String username) {this.username = username;}
+    public void setBio(String bio) {this.bio = bio;}
+    public void setDisplayName(String displayName) {this.displayName = displayName;}
 }
