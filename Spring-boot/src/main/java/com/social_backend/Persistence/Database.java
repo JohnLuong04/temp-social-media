@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.io.File;
 
 import org.springframework.stereotype.Service;
 
@@ -48,22 +50,26 @@ public class Database{
 
     //Run Once
     public static void main(String[] args) {
-        String url = "jdbc:sqlite:Spring-boot/winter/src/main/resources/social-media-database.db";
+        String url = "jdbc:sqlite:Spring-boot/src/main/social-media-database.db";
+        String path = "Spring-boot/src/main/social-media-database.db";
+        File dbFile = new File(path);
+        
+        System.out.println("Absolute path: " + dbFile.getAbsolutePath());
+        System.out.println("Exists? " + dbFile.exists());
+
+
         try(Connection conn = DriverManager.getConnection(url)) {
-            if(conn != null){
-                System.out.println("Database connected");
-            }else{
-                return;
-            }
+           
             Statement statement = conn.createStatement();
             // statement.execute("INSERT INTO users(username, password) VALUES ('WINTER', 'test')");
 
             ResultSet rs = statement.executeQuery("SELECT * from users");
               while (rs.next()) {
                 System.out.println(rs.getString("username") + " - " + rs.getString("password"));
-            }
+            } 
         
-        }catch(Exception e){
+        }catch(SQLException e){
+            System.out.println("Database problem");
             e.printStackTrace();
         }
     }

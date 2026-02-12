@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import com.social_backend.Persistence.Userback;
 
 // Author: Jason Ha
@@ -32,14 +35,13 @@ public class UserController{
         return ResponseEntity.ok("Backend/Frontend Connection");
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Account user) {
-        try{
-
-
-            return new ResponseEntity<>("Success", HttpStatus.OK);
-        }catch(IOException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Map<String,String> user) {
+        System.out.println("HIT /user/login with body: " + user);
+        if(userback.get_user(user.get("username"), user.get("password")) != null){
+            return new ResponseEntity<>("User Exists", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("Wrong User or Password", HttpStatus.UNAUTHORIZED);
         }
     }
 

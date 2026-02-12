@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,10 +22,40 @@ import com.social_backend.Model.*;
 
 /* Author: Jason Ha */
 
-/* This may not be use for the future */
+/* Communicate with Database to handle UserBack */
 
 @Service
 public class Userback{
 
+    private static String db_location = "jdbc:sqlite:Spring-boot/src/main/resources/social-media-database.db";
 
+    public static String[] get_user(String username, String password){
+        try(Connection conn = DriverManager.getConnection(db_location)){
+            
+            String sql_command = "SELECT username, password from users WHERE username = ? AND password = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql_command);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            
+            //Working with hash password later
+            ResultSet rs = preparedStatement.executeQuery();
+            String result_username = rs.getString("username");
+            String result_password = rs.getString("password");
+
+            if((result_username == null) || (result_password == null)){
+                return null;
+            }else{
+                return new String[] {result_username,result_password};
+            }
+        } catch(SQLException e){
+            System.out.println("Database not exist");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void main(String[] args){
+        System.out.println(Arrays.toString(
+            get_user("WINTER", "test")));
+    }
 }
