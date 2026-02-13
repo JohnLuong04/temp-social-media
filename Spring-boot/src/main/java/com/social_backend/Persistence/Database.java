@@ -50,8 +50,8 @@ public class Database{
 
     //Run Once
     public static void main(String[] args) {
-        String url = "jdbc:sqlite:Spring-boot/src/main/social-media-database.db";
-        String path = "Spring-boot/src/main/social-media-database.db";
+        String url = "jdbc:sqlite:Spring-boot/src/main/resources/social-media-database.db";
+        String path = "Spring-boot/src/main/resources/social-media-database.db";
         File dbFile = new File(path);
         
         System.out.println("Absolute path: " + dbFile.getAbsolutePath());
