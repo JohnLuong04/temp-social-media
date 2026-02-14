@@ -55,7 +55,8 @@ export default function LandingPage(){
                         return;
                     }
                 }else{
-                    //Send the data to next page (Optional: Cookies)
+
+                    navigate("/home", { state: {userData} });
                 }
                 console.log(data)
             }catch(error){
