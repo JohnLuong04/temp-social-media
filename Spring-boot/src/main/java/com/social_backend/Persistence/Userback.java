@@ -29,6 +29,14 @@ public class Userback{
 
     private static String db_location = "jdbc:sqlite:src/main/resources/social-media-database.db";
 
+    /*
+        Gets the user from userData if it exist within the userData table. This function should only be used on the backend no where near
+        the frontend in the future. I'll probably make does_exist boolean function later.
+        @Param:
+        username: The unique username
+        password: password
+        @Return: If exist [Username, password] else [null]    
+    */
     public String[] get_user(String username, String password){
         try(Connection conn = DriverManager.getConnection(db_location)){
             
