@@ -27,9 +27,9 @@ import com.social_backend.Model.*;
 @Service
 public class Userback{
 
-    private static String db_location = "jdbc:sqlite:Spring-boot/src/main/resources/social-media-database.db";
+    private static String db_location = "jdbc:sqlite:src/main/resources/social-media-database.db";
 
-    public static String[] get_user(String username, String password){
+    public String[] get_user(String username, String password){
         try(Connection conn = DriverManager.getConnection(db_location)){
             
             String sql_command = "SELECT username, password from users WHERE username = ? AND password = ?";
@@ -55,7 +55,8 @@ public class Userback{
     }
 
     public static void main(String[] args){
+        Userback userback = new Userback();
         System.out.println(Arrays.toString(
-            get_user("WINTER", "test")));
+            userback.get_user("WINTER", "test")));
     }
 }

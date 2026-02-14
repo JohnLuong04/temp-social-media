@@ -16,20 +16,24 @@ export default function SignupPage(){
 
     function post_function(){
         const sendmessage = async () => {
-            try{
-                const response = await fetch('http://localhost:8080/user/text', {
-                    method: 'POST', //What Method
-                    headers: {
-                        'Content-Type': 'application/json' //What Content Type
-                    },
-                    body: JSON.stringify({message: "data"}) //What are we sending
-                });
-                const data = await response.text(); // Server response await is need for time
-                console.log(data)
-            } catch(error) {
-                console.log('Error:',  error) //Error case nothing important
+        try {
+            const response = await fetch('http://localhost:8080/user/text', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: "data"
+                })
+            });
+
+            const data = await response.text();
+            console.log(data);
+
+            } catch (error) {
+                console.log('Error:', error);
             }
-        }
+        };
         sendmessage();
     }
 

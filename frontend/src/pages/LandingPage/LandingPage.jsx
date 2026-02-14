@@ -19,15 +19,50 @@ export default function LandingPage(){
         }));
     }
 
+    
+
     async function handleSubmit(e){
         e.preventDefault();
         // Do something for backend, delete console log
         console.log(userData);
         // should authenticate if user exists before navigating to home page
         // for now just checking if anything has been entered
-        if(userData.username && userData.password){
-            navigate("/home");
+
+
+        /*
+        GET UserData.username and UserData.password (Does it exist?)
+        If exist then
+            go /home and display information in the homepage
+        else
+            say password or username is incorrect
+        */
+
+        const get_message = async() => {
+            try{
+                //Return HTTP CODE
+                const response = await fetch('http://localhost:8080/user/login', {
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({username: userData.username, password: userData.password})
+                });
+                const data = await response.text();
+                if(!response.ok){
+                    if(response.status === 401){
+                        //Show message: Incorrect username or password
+                        console.log("NO ACCESS")
+                        return;
+                    }
+                }else{
+                    //Send the data to next page (Optional: Cookies)
+                }
+                console.log(data)
+            }catch(error){
+                console.log('Error:', error)
+            }
         }
+        get_message();
     }
 
     // Replace h1 with actual app name
