@@ -4,27 +4,20 @@ import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.Arrays;
+;import static com.social_backend.Persistence.Database.execute_update;
 
 //Author: Jason Ha
 
 @Service
 public class Profileback {
 
-    private static String db_location = "jdbc:sqlite:spring-boot/src/main/resources/social-media-database.db";
-
     /**
      * Deleting a profile 
      * @param username user_id where we deleting
      */
-    public void delete_profile(String username){
-        try(Connection con = DriverManager.getConnection(db_location)){
-            String sql_remove = "DELETE FROM PROFILE WHERE user_id = ?";
-            PreparedStatement statement = con.prepareStatement(sql_remove);
-            statement.setString(1, username);
-            statement.executeUpdate();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
+    public void delete_profile(String username) throws SQLException {
+        String delete_profile_command = "DELETE FROM PROFILE WHERE user_id = ?";
+        execute_update(delete_profile_command, username);
     }
 
     /**
@@ -32,16 +25,9 @@ public class Profileback {
      * @param username Unique Username
      * @param nickname Nickname can be anything
      */
-    public void post_profile(String username, String nickname) {
-        try(Connection con = DriverManager.getConnection(db_location)){
-            String sql_post = "INSERT INTO profile(user_id, nickname) VALUES(?,?)";
-            PreparedStatement statement = con.prepareStatement(sql_post);
-            statement.setString(1, username);
-            statement.setString(2, nickname);
-            statement.executeUpdate();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
+    public void post_profile(String username, String nickname) throws SQLException {
+        String post_profile_command = "INSERT INTO profile(user_id, nickname) VALUES(?,?)";
+        execute_update(post_profile_command, nickname);
     }
 
     /**
@@ -49,16 +35,9 @@ public class Profileback {
      * @param username unique username
      * @param new_nickname user new nickname // Cannot be Null 
      */
-    public void edit_profile(String username, String new_nickname){
-        try(Connection con = DriverManager.getConnection(db_location)){
-            String sql = "UPDATE Profile SET nickname = ? WHERE user_id = ?";
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, new_nickname);
-            statement.setString(2, username);
-            statement.executeUpdate();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
+    public void edit_profile(String username, String new_nickname) throws SQLException {
+        String edit_profile_command = "UPDATE Profile SET nickname = ? WHERE user_id = ?";
+        execute_update(edit_profile_command, new_nickname);
     }
 
 
@@ -67,28 +46,17 @@ public class Profileback {
      *  is a unique name from UserData table. 
      *  @Param Username: the Unique Username 
      *  @Return Profile [Unique Username, Nickname]
+     *
+     *  SELECT gets its own connection command
     */
-    public String[] get_profile(String username){
-        try(Connection con = DriverManager.getConnection(db_location)){
-            String sql_get = "SELECT * from profile where user_id = ?";
-            PreparedStatement statement = con.prepareStatement(sql_get);
-            statement.setString(1, username);
-            ResultSet rs = statement.executeQuery();
-            if(rs.next()){
-                return new String[] {
-                    rs.getString("user_id"),
-                    rs.getString("nickname")
-                };
-            }else{
-                return null;
-            }
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
 
-    public static void main(String[] args){
+    public String[] get_profile(String username) throws SQLException {
+       return null;
+    }
+     
+
+    /*
+    public static void main(String[] args) throws SQLException {
 
         Profileback test = new Profileback();
         test.post_profile("winter", "test2");
@@ -98,4 +66,8 @@ public class Profileback {
         System.out.println(Arrays.toString(test.get_profile("winter")));
 
     }
+    *
+     */
 }
+
+     
