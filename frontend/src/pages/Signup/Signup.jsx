@@ -1,4 +1,4 @@
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import "./Signup.css"
 
@@ -64,22 +64,25 @@ export default function SignupPage(){
             <input
                 type={"text"}
                 placeholder={"Username"}
+                aria-label={"Username field"}
                 name={"username"}
                 value={newUserData.username}
                 onChange={handleChange}
                 required={true}
             />
             <input
-                type={"text"}
+                type={"password"}
                 placeholder={"Password"}
+                aria-label={"Password field"}
                 name={"password"}
                 value={newUserData.password}
                 onChange={handleChange}
                 required={true}
             />
             <input
-                type={"text"}
+                type={"password"}
                 placeholder={"confirm_password"}
+                aria-label={"Password confirmation field"}
                 name={"confirm_password"}
                 value={newUserData.confirm_password}
                 onChange={handleChange}
