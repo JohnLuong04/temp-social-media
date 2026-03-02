@@ -38,7 +38,7 @@ public class UserController{
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String,String> user) {
         System.out.println("HIT /user/login with body: " + user);
-        if(userback.get_user(user.get("username"), user.get("password")) != null){
+        if(userback.check_user(user.get("username"), user.get("password"))){
             return new ResponseEntity<>("User Exists", HttpStatus.OK);
         }else{
             return new ResponseEntity<>("Wrong User or Password", HttpStatus.UNAUTHORIZED);

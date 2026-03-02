@@ -17,7 +17,7 @@ public class Database{
 
     private final static String db_location = "jdbc:sqlite:src/main/resources/social-media-database.db";
 
-    public static void execute_update(String query, Object... param) throws SQLException {
+    public static void execute_update(String query, Object... param){
         if(query.isEmpty()){
             throw new IllegalArgumentException("Line 30 - Database: Nothing to execute");
         }
@@ -27,11 +27,12 @@ public class Database{
                 statement.setString(i+1, (String) param[i]); //i+1 because we can't start with 0
             }
             statement.execute();
-
+        }catch(SQLException e){
+            e.printStackTrace();
         }
     }
 
-    public static ArrayList<ArrayList<String>> execute_query(String query, Object... param) throws SQLException {
+    public static ArrayList<ArrayList<Object>> execute_query(String query, Object... param) {
         if(query.isEmpty()){
           throw new IllegalArgumentException("Line 36 - Database: Nothing to execute");
         }
@@ -42,41 +43,34 @@ public class Database{
                 statement.setString(i+1, (String) param[i]);
             }
             ResultSet resultSet = statement.executeQuery();
-            ArrayList<ArrayList<String>> list = new ArrayList<>();
+            ArrayList<ArrayList<Object>> list = new ArrayList<>();
             while(resultSet.next()){
-                ArrayList<String> result = new ArrayList<>();
+                ArrayList<Object> result = new ArrayList<>();
                 for(int i = 0; i < resultSet.getMetaData().getColumnCount(); i++){
-                    result.add(resultSet.getString(i+1));
+                    result.add(resultSet.getObject(i+1));
                 }
                 list.add(result);
             }
             resultSet.close();
             return list;
         }
+        catch(SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     //Run Once
     public static void main(String[] args) {
-        String url = "jdbc:sqlite:Spring-boot/src/main/resources/social-media-database.db";
-        String path = "Spring-boot/src/main/resources/social-media-database.db";
-        File dbFile = new File(path);
-        
-        System.out.println("Absolute path: " + dbFile.getAbsolutePath());
-        System.out.println("Exists? " + dbFile.exists());
-
-
-        try(Connection conn = DriverManager.getConnection(url)) {
+        try(Connection conn = DriverManager.getConnection(db_location)) {
            
             Statement statement = conn.createStatement();
-            // statement.execute("INSERT INTO users(username, password) VALUES ('WINTER', 'test')");
 
-            conn.createStatement().execute("PRAGMA foreign_keys = ON");
-            /*
-            ResultSet rs = statement.executeQuery("SELECT * from users");
-              while (rs.next()) {
-                System.out.println(rs.getString("username") + " - " + rs.getString("password"));
-            }
-            */
+            //Insert your SQL COMMAND HERE REMOVE \n
+
+            String sql_command = "";
+
+            conn.createStatement().execute(sql_command);
         }catch(SQLException e){
             System.out.println("Database problem");
             e.printStackTrace();

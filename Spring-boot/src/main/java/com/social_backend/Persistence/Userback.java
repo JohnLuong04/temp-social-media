@@ -20,6 +20,8 @@ import java.util.List;
 
 import com.social_backend.Model.*;
 
+import static com.social_backend.Persistence.Database.execute_query;
+
 /* Author: Jason Ha */
 
 /* Communicate with Database to handle UserBack */
@@ -35,34 +37,18 @@ public class Userback{
      *
      *  SELECT gets its own connection command
     */
-    public String[] get_user(String username, String password){
-        try(Connection conn = DriverManager.getConnection(db_location)){
-            
-            String sql_command = "SELECT username, password from users WHERE username = ? AND password = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql_command);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            
-            //Working with hash password later
-            ResultSet rs = preparedStatement.executeQuery();
-            String result_username = rs.getString("username");
-            String result_password = rs.getString("password");
-
-            if((result_username == null) || (result_password == null)){
-                return null;
-            }else{
-                return new String[] {result_username,result_password};
-            }
-        } catch(SQLException e){
-            System.out.println("Database not exist");
-            e.printStackTrace();
-            return null;
-        }
+    public ArrayList<ArrayList<Object>> get_user(String username, String password){
+        String get_user_sql = "SELECT username, password from users WHERE username = ? AND password = ?";
+        return execute_query(get_user_sql, username, password);
     }
 
-    public static void main(String[] args){
+    public boolean check_user(String username, String password){
+        String get_user_sql = "SELECT username, password from users WHERE username = ? AND password = ?";
+        return !(execute_query(get_user_sql,username,password).isEmpty());
+    }
+
+    public static void main(String[] args) {
         Userback userback = new Userback();
-        System.out.println(Arrays.toString(
-            userback.get_user("WINTER", "test")));
+        System.out.println(userback.get_user("WINTER","test"));
     }
 }
