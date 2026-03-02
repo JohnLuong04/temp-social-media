@@ -19,8 +19,7 @@ public class Database{
 
     public static void execute_update(String query, Object... param) throws SQLException {
         if(query.isEmpty()){
-            System.out.println("Line 30 - Database: Nothing to execute?");
-            return;
+            throw new IllegalArgumentException("Line 30 - Database: Nothing to execute");
         }
         try(Connection conn = DriverManager.getConnection(db_location)){
             PreparedStatement statement = conn.prepareStatement(query);
@@ -29,6 +28,30 @@ public class Database{
             }
             statement.execute();
 
+        }
+    }
+
+    public static ArrayList<ArrayList<String>> execute_query(String query, Object... param) throws SQLException {
+        if(query.isEmpty()){
+          throw new IllegalArgumentException("Line 36 - Database: Nothing to execute");
+        }
+
+        try(Connection conn = DriverManager.getConnection(db_location)){
+            PreparedStatement statement = conn.prepareStatement(query);
+            for(int i = 0; i < param.length; i++){
+                statement.setString(i+1, (String) param[i]);
+            }
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<ArrayList<String>> list = new ArrayList<>();
+            while(resultSet.next()){
+                ArrayList<String> result = new ArrayList<>();
+                for(int i = 0; i < resultSet.getMetaData().getColumnCount(); i++){
+                    result.add(resultSet.getString(i+1));
+                }
+                list.add(result);
+            }
+            resultSet.close();
+            return list;
         }
     }
 
