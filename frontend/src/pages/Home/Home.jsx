@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 
 */
 
+
 function Post({ postData, handleChange, submitPost}){
     return (
         <div className = "post">
@@ -80,6 +81,8 @@ export default function Home(){
         }
     ]);
 
+    const[lastSeen, setLastseen] = useState(null);
+
    function handleChange(e) {
         const { name, value } = e.target;
         setPostData(prev => ({ ...prev, [name]: value }));
@@ -107,11 +110,11 @@ export default function Home(){
     }
 
     /**
-     * Might remove getAll to getSome because if were talking about scability imagine loading millions :skull:
+     * Decided to use getSome
      */
     async function fetchPosts(){
         try{
-            const response = await fetch('http://localhost:8080/post/getAll');
+            const response = await fetch('http://localhost:8080/post/getSome');
             if(!response.ok){
                 throw new Error('Failed to fetch getAll post');
             }

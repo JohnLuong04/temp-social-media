@@ -1,9 +1,11 @@
 package com.social_backend.Persistence;
-import java.sql.*;
-import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-
-import org.springframework.stereotype.Service;
 
 
 //Author: Jason Ha
@@ -15,7 +17,7 @@ I will leave things I already ran to give you understanding how I connect to dat
 */
 public class Database{
 
-    private final static String db_location = "jdbc:sqlite:src/main/resources/social-media-database.db";
+    public final static String db_location = "jdbc:sqlite:Spring-boot/src/main/resources/social-media-database.db";
 
     public static void execute_update(String query, Object... param){
         if(query.isEmpty()){
@@ -24,7 +26,8 @@ public class Database{
         try(Connection conn = DriverManager.getConnection(db_location)){
             PreparedStatement statement = conn.prepareStatement(query);
             for(int i = 0; i < param.length; i++){
-                statement.setString(i+1, (String) param[i]); //i+1 because we can't start with 0
+                if (param[i] == null) statement.setNull(i+1, java.sql.Types.NULL);
+                else statement.setObject(i+1, param[i]);
             }
             statement.execute();
         }catch(SQLException e){
@@ -40,14 +43,14 @@ public class Database{
         try(Connection conn = DriverManager.getConnection(db_location)){
             PreparedStatement statement = conn.prepareStatement(query);
             for(int i = 0; i < param.length; i++){
-                statement.setString(i+1, (String) param[i]);
+                statement.setObject(i + 1, param[i]);
             }
             ResultSet resultSet = statement.executeQuery();
             ArrayList<ArrayList<Object>> list = new ArrayList<>();
             while(resultSet.next()){
                 ArrayList<Object> result = new ArrayList<>();
-                for(int i = 0; i < resultSet.getMetaData().getColumnCount(); i++){
-                    result.add(resultSet.getObject(i+1));
+                for(int i = 1; i < resultSet.getMetaData().getColumnCount(); i++){
+                    result.add(resultSet.getObject(i));
                 }
                 list.add(result);
             }
@@ -55,22 +58,18 @@ public class Database{
             return list;
         }
         catch(SQLException e){
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
     //Run Once
     public static void main(String[] args) {
+
         try(Connection conn = DriverManager.getConnection(db_location)) {
            
             Statement statement = conn.createStatement();
-
-            //Insert your SQL COMMAND HERE REMOVE \n
-
-            String sql_command = "";
-
-            conn.createStatement().execute(sql_command);
+           
+            conn.createStatement().execute("PRAGMA foreign_keys = ON");
         }catch(SQLException e){
             System.out.println("Database problem");
             e.printStackTrace();

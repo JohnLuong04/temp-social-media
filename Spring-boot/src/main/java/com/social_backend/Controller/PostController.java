@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.social_backend.Persistence.PostBack;
+import java.util.ArrayList;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -17,6 +18,18 @@ public class PostController {
 
     @Autowired
     private PostBack postback;
+
+    // @GetMapping("/getyourpost")
+    // public ResponseEntity<ArrayList<Post>> getAllPost(@RequestParam String username){
+    //     ArrayList<Post> data = postback.get_post_list(username);
+    //     return null;
+    // }
+
+    @GetMapping("/getSome")
+    public ResponseEntity<ArrayList<Post>> getSomePost(@RequestParam String username, @RequestParam(required = false) Integer lastPostID){
+        ArrayList<Post> Batch = postback.get_some_post(username, lastPostID);
+        return new ResponseEntity<>(Batch, HttpStatus.OK);
+    }
 
     @GetMapping("/{postID}")
     public ResponseEntity<Post> getPost(@PathVariable String postID) throws SQLException {

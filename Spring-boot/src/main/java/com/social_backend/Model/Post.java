@@ -6,6 +6,7 @@ public class Post {
     private int postID = -1;
     private final String username;
     private String content;
+    private String createdAt;
 
     // Used when constructing a new post from scratch with user input
     @JsonCreator
@@ -15,10 +16,11 @@ public class Post {
     }
 
     // Used when reconstructing a post from database information
-    public Post(int postID, String username, String content) {
+    public Post(int postID, String username, String content, String createdAt) {
         this.postID = postID;
         this.username = username;
         this.content = content;
+        this.createdAt = createdAt;
     }
 
     public int getPostID() {return this.postID;}
